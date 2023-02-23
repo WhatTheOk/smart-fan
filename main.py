@@ -3,10 +3,10 @@ def on_button_pressed_a():
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_button_pressed_b():
-    fanData[0] = (fanData[0] + 1) % 4
     pins.digital_write_pin(DigitalPin.P8, 0)
     pins.digital_write_pin(DigitalPin.P9, 0)
     pins.digital_write_pin(DigitalPin.P10, 0)
+    fanData[0] = (fanData[0] + 1) % 4
     if fanData[0] == 1:
         pins.digital_write_pin(DigitalPin.P9, 1)
     elif fanData[0] == 2:
@@ -20,15 +20,25 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_forever():
     if fanData[0] == 3:
-        pass
+        temper = dht11_dht22.read_data(dataType.TEMPERATURE)
+        minTemp = fanData[4]
+        maxTemp = fanData[5]
+        if temper <= minTemp:
+            fanSpeed(0)
+        elif temper >= maxTemp:
+            fanSpeed(9)
+        else:
+            fanSpeed(int((temper - minTemp) / (maxTemp - minTemp) * 9))
     elif fanData[0] == 2:
-        pass
+        fanSpeed(fanData[1])
+        if fanData[2] == randint(1,3) and fanData [3] == randint(29,31):
+            pins.digital_write_pin(DigitalPin.P10, 0)
+            fanData[0] = 0
     elif fanData[0] == 1:
         fanSpeed(fanData[1])
     elif fanData[0] == 0:
         fanSpeed(0)
     basic.pause(2000)
-
 basic.forever(on_forever)
 
 def fanSpeed(speed):
