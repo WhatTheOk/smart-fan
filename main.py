@@ -31,7 +31,7 @@ def on_forever():
             fanSpeed(int((temperature - minTemp) / (maxTemp - minTemp) * 9))
     elif fanData[0] == 2:
         fanSpeed(fanData[1])
-        if fanData[2] == randint(1,3) and fanData [3] == randint(29,31):
+        if fanData[2] == ds.get_hour() and fanData [3] == ds.get_minute():
             pins.digital_write_pin(DigitalPin.P10, 0)
             fanData[0] = 0
     elif fanData[0] == 1:

@@ -36,7 +36,7 @@ basic.forever(function on_forever() {
         
     } else if (fanData[0] == 2) {
         fanSpeed(fanData[1])
-        if (fanData[2] == randint(1, 3) && fanData[3] == randint(29, 31)) {
+        if (fanData[2] == ds.getHour() && fanData[3] == ds.getMinute()) {
             pins.digitalWritePin(DigitalPin.P10, 0)
             fanData[0] = 0
         }
