@@ -20,15 +20,15 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_forever():
     if fanData[0] == 3:
-        temper = dht11_dht22.read_data(dataType.TEMPERATURE)
+        temperature = dht11_dht22.read_data(dataType.TEMPERATURE)
         minTemp = fanData[4]
         maxTemp = fanData[5]
-        if temper <= minTemp:
+        if temperature <= minTemp:
             fanSpeed(0)
-        elif temper >= maxTemp:
+        elif temperature >= maxTemp:
             fanSpeed(9)
         else:
-            fanSpeed(int((temper - minTemp) / (maxTemp - minTemp) * 9))
+            fanSpeed(int((temperature - minTemp) / (maxTemp - minTemp) * 9))
     elif fanData[0] == 2:
         fanSpeed(fanData[1])
         if fanData[2] == randint(1,3) and fanData [3] == randint(29,31):

@@ -19,19 +19,19 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
 })
 basic.forever(function on_forever() {
-    let temper: number;
+    let temperature: number;
     let minTemp: number;
     let maxTemp: number;
     if (fanData[0] == 3) {
-        temper = dht11_dht22.readData(dataType.temperature)
+        temperature = dht11_dht22.readData(dataType.temperature)
         minTemp = fanData[4]
         maxTemp = fanData[5]
-        if (temper <= minTemp) {
+        if (temperature <= minTemp) {
             fanSpeed(0)
-        } else if (temper >= maxTemp) {
+        } else if (temperature >= maxTemp) {
             fanSpeed(9)
         } else {
-            fanSpeed(Math.trunc((temper - minTemp) / (maxTemp - minTemp) * 9))
+            fanSpeed(Math.trunc((temperature - minTemp) / (maxTemp - minTemp) * 9))
         }
         
     } else if (fanData[0] == 2) {
