@@ -2,10 +2,13 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     fanData[1] = Math.trunc(fanData[1] / 3) * 3 % 9 + 3
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    changeMode((fanData[0] + 1) % 4)
+})
+function changeMode(mode: number) {
+    fanData[0] = mode
     pins.digitalWritePin(DigitalPin.P8, 0)
     pins.digitalWritePin(DigitalPin.P9, 0)
     pins.digitalWritePin(DigitalPin.P10, 0)
-    fanData[0] = (fanData[0] + 1) % 4
     if (fanData[0] == 1) {
         pins.digitalWritePin(DigitalPin.P9, 1)
     } else if (fanData[0] == 2) {
@@ -17,7 +20,8 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
         pins.digitalWritePin(DigitalPin.P8, 1)
     }
     
-})
+}
+
 basic.forever(function on_forever() {
     let temperature: number;
     let minTemp: number;
@@ -37,8 +41,7 @@ basic.forever(function on_forever() {
     } else if (fanData[0] == 2) {
         fanSpeed(fanData[1])
         if (fanData[2] == ds.getHour() && fanData[3] == ds.getMinute()) {
-            pins.digitalWritePin(DigitalPin.P10, 0)
-            fanData[0] = 0
+            changeMode(0)
         }
         
     } else if (fanData[0] == 1) {
@@ -58,7 +61,7 @@ function fanSpeed(speed: number) {
 }
 
 led.enable(false)
-let fanData = [0, 5, 2, 30, 20, 30]
+let fanData = [0, 5, 0, 1, 10, 15]
 makerbit.connectIrReceiver(DigitalPin.P0, IrProtocol.Keyestudio)
 let ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.queryData(DHTtype.DHT11, DigitalPin.P1, true, false, false)

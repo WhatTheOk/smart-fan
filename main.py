@@ -3,10 +3,14 @@ def on_button_pressed_a():
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_button_pressed_b():
+    changeMode((fanData[0] + 1) % 4)
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+def changeMode(mode):
+    fanData[0] = mode
     pins.digital_write_pin(DigitalPin.P8, 0)
     pins.digital_write_pin(DigitalPin.P9, 0)
     pins.digital_write_pin(DigitalPin.P10, 0)
-    fanData[0] = (fanData[0] + 1) % 4
     if fanData[0] == 1:
         pins.digital_write_pin(DigitalPin.P9, 1)
     elif fanData[0] == 2:
@@ -16,7 +20,6 @@ def on_button_pressed_b():
         ds.set_hour(0)
     elif fanData[0] == 3:
         pins.digital_write_pin(DigitalPin.P8, 1)
-input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_forever():
     if fanData[0] == 3:
@@ -32,8 +35,7 @@ def on_forever():
     elif fanData[0] == 2:
         fanSpeed(fanData[1])
         if fanData[2] == ds.get_hour() and fanData [3] == ds.get_minute():
-            pins.digital_write_pin(DigitalPin.P10, 0)
-            fanData[0] = 0
+            changeMode(0)
     elif fanData[0] == 1:
         fanSpeed(fanData[1])
     elif fanData[0] == 0:
@@ -47,7 +49,7 @@ def fanSpeed(speed):
         pins.analog_write_pin(AnalogPin.P4, 0)
 
 led.enable(False)
-fanData = [0, 5, 2, 30, 20, 30]
+fanData = [0, 5, 0, 1, 10, 15]
 makerbit.connect_ir_receiver(DigitalPin.P0, IrProtocol.KEYESTUDIO)
 ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.query_data(DHTtype.DHT11, DigitalPin.P1, True, False, False)
