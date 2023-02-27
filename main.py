@@ -6,6 +6,15 @@ def on_button_pressed_b():
     changeMode((fanData[0] + 1) % 4)
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
+def on_received_string(data):
+    fanData[0] = int(data[0])
+    fanData[1] = int(data[1])
+    fanData[2] = int(data[2:4])
+    fanData[3] = int(data[4:6])
+    fanData[4] = int(data[6:8])
+    fanData[5] = int(data[8:10])
+radio.on_received_string(on_received_string)
+
 def changeMode(mode):
     fanData[0] = mode
     pins.digital_write_pin(DigitalPin.P8, 0)
@@ -53,3 +62,4 @@ fanData = [0, 5, 0, 1, 10, 15]
 makerbit.connect_ir_receiver(DigitalPin.P0, IrProtocol.KEYESTUDIO)
 ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.query_data(DHTtype.DHT11, DigitalPin.P1, True, False, False)
+radio.set_group(1)
