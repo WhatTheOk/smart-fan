@@ -22,16 +22,16 @@ def changeMode(mode):
     pins.digital_write_pin(DigitalPin.P10, 0)
     if fanData[0] == 1:
         pins.digital_write_pin(DigitalPin.P9, 1)
-    elif fanData[0] == 2:
+    if fanData[0] == 2 or fanData[0] == 4:
         pins.digital_write_pin(DigitalPin.P10, 1)
         ds.set_second(0)
         ds.set_minute(0)
         ds.set_hour(0)
-    elif fanData[0] == 3:
+    if fanData[0] == 3 or fanData[0] == 4:
         pins.digital_write_pin(DigitalPin.P8, 1)
 
 def on_forever():
-    if fanData[0] == 3:
+    if fanData[0] == 3 or 4:
         temperature = dht11_dht22.read_data(dataType.TEMPERATURE)
         minTemp = fanData[4]
         maxTemp = fanData[5]
@@ -41,6 +41,9 @@ def on_forever():
             fanSpeed(9)
         else:
             fanSpeed(int((temperature - minTemp) / (maxTemp - minTemp) * 9))
+        if fanData[0] == 4:
+            if fanData[2] == ds.get_hour() and fanData [3] == ds.get_minute():
+                changeMode(0)
     elif fanData[0] == 2:
         fanSpeed(fanData[1])
         if fanData[2] == ds.get_hour() and fanData [3] == ds.get_minute():

@@ -19,12 +19,16 @@ function changeMode(mode: number) {
     pins.digitalWritePin(DigitalPin.P10, 0)
     if (fanData[0] == 1) {
         pins.digitalWritePin(DigitalPin.P9, 1)
-    } else if (fanData[0] == 2) {
+    }
+    
+    if (fanData[0] == 2 || fanData[0] == 4) {
         pins.digitalWritePin(DigitalPin.P10, 1)
         ds.setSecond(0)
         ds.setMinute(0)
         ds.setHour(0)
-    } else if (fanData[0] == 3) {
+    }
+    
+    if (fanData[0] == 3 || fanData[0] == 4) {
         pins.digitalWritePin(DigitalPin.P8, 1)
     }
     
@@ -34,7 +38,7 @@ basic.forever(function on_forever() {
     let temperature: number;
     let minTemp: number;
     let maxTemp: number;
-    if (fanData[0] == 3) {
+    if (fanData[0] == 3 || 4) {
         temperature = dht11_dht22.readData(dataType.temperature)
         minTemp = fanData[4]
         maxTemp = fanData[5]
@@ -44,6 +48,13 @@ basic.forever(function on_forever() {
             fanSpeed(9)
         } else {
             fanSpeed(Math.trunc((temperature - minTemp) / (maxTemp - minTemp) * 9))
+        }
+        
+        if (fanData[0] == 4) {
+            if (fanData[2] == ds.getHour() && fanData[3] == ds.getMinute()) {
+                changeMode(0)
+            }
+            
         }
         
     } else if (fanData[0] == 2) {
