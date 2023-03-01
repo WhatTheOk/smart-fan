@@ -5,11 +5,11 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     changeMode((fanData[0] + 1) % 5)
 })
 radio.onReceivedString(function on_received_string(data: string) {
-    fanData[0] = parseInt(data[0])
     fanData[1] = parseInt(data[1])
     for (let i = 2; i < 6; i++) {
         fanData[i] = parseInt(data.slice(i * 2 - 2, i * 2))
     }
+    changeMode(parseInt(data[0]))
 })
 function changeMode(mode: number) {
     fanData[0] = mode
