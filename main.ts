@@ -2,7 +2,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     fanData[1] = Math.trunc(fanData[1] / 3) * 3 % 9 + 3
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    changeMode((fanData[0] + 1) % 4)
+    changeMode((fanData[0] + 1) % 5)
 })
 radio.onReceivedString(function on_received_string(data: string) {
     fanData[0] = parseInt(data[0])

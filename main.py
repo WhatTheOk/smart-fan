@@ -3,7 +3,7 @@ def on_button_pressed_a():
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_button_pressed_b():
-    changeMode((fanData[0] + 1) % 4)
+    changeMode((fanData[0] + 1) % 5)
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_received_string(data):
