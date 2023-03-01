@@ -37,7 +37,17 @@ basic.forever(function on_forever() {
     let temperature: number;
     let minTemp: number;
     let maxTemp: number;
-    if (fanData[0] == 3 || 4) {
+    if (fanData[0] == 0) {
+        fanSpeed(0)
+    } else if (fanData[0] == 1) {
+        fanSpeed(fanData[1])
+    } else if (fanData[0] == 2) {
+        fanSpeed(fanData[1])
+        if (fanData[2] == ds.getHour() && fanData[3] == ds.getMinute()) {
+            changeMode(0)
+        }
+        
+    } else if (fanData[0] == 3 || 4) {
         temperature = dht11_dht22.readData(dataType.temperature)
         minTemp = fanData[4]
         maxTemp = fanData[5]
@@ -56,16 +66,6 @@ basic.forever(function on_forever() {
             
         }
         
-    } else if (fanData[0] == 2) {
-        fanSpeed(fanData[1])
-        if (fanData[2] == ds.getHour() && fanData[3] == ds.getMinute()) {
-            changeMode(0)
-        }
-        
-    } else if (fanData[0] == 1) {
-        fanSpeed(fanData[1])
-    } else if (fanData[0] == 0) {
-        fanSpeed(0)
     }
     
     basic.pause(2000)
