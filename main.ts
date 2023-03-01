@@ -7,10 +7,9 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
 radio.onReceivedString(function on_received_string(data: string) {
     fanData[0] = parseInt(data[0])
     fanData[1] = parseInt(data[1])
-    fanData[2] = parseInt(data.slice(2, 4))
-    fanData[3] = parseInt(data.slice(4, 6))
-    fanData[4] = parseInt(data.slice(6, 8))
-    fanData[5] = parseInt(data.slice(8, 10))
+    for (let i = 2; i < 6; i++) {
+        fanData[i] = parseInt(data.slice(i * 2 - 2, i * 2))
+    }
 })
 function changeMode(mode: number) {
     fanData[0] = mode

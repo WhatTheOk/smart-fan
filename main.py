@@ -9,10 +9,8 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
 def on_received_string(data):
     fanData[0] = int(data[0])
     fanData[1] = int(data[1])
-    fanData[2] = int(data[2:4])
-    fanData[3] = int(data[4:6])
-    fanData[4] = int(data[6:8])
-    fanData[5] = int(data[8:10])
+    for i in range(2,6):
+        fanData[i] = int(data[i * 2 - 2:i * 2])
 radio.on_received_string(on_received_string)
 
 def changeMode(mode):
