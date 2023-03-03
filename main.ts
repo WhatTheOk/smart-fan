@@ -11,6 +11,49 @@ radio.onReceivedString(function on_received_string(data: string) {
     }
     changeMode(parseInt(data[0]))
 })
+makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_any_pressed() {
+    if (changeData == -1) {
+        if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_1)) {
+            changeMode(0)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_2)) {
+            changeMode(1)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_3)) {
+            changeMode(2)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_4)) {
+            changeMode(3)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_5)) {
+            changeMode(4)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Star)) {
+            irChangeData(0)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_0)) {
+            irChangeData(1)
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Hash)) {
+            irChangeData(2)
+        }
+        
+    }
+    
+})
+function irChangeData(data: number) {
+    
+    changeData = data
+    if (changeData == 1) {
+        for (let i = 0; i < 30; i++) {
+            if (makerbit.wasIrDataReceived()) {
+                if (makerbit.irButton() > 0) {
+                    fanSpeed(makerbit.irButton())
+                }
+                
+                break
+            }
+            
+            basic.pause(100)
+        }
+    }
+    
+    changeData = -1
+}
+
 function changeMode(mode: number) {
     fanData[0] = mode
     pins.digitalWritePin(DigitalPin.P8, 0)
@@ -83,4 +126,5 @@ let fanData = [0, 5, 0, 1, 10, 15]
 makerbit.connectIrReceiver(DigitalPin.P0, IrProtocol.Keyestudio)
 let ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.queryData(DHTtype.DHT11, DigitalPin.P1, true, false, false)
+let changeData = -1
 radio.setGroup(1)

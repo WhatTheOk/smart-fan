@@ -13,6 +13,38 @@ def on_received_string(data):
     changeMode(int(data[0]))
 radio.on_received_string(on_received_string)
 
+def on_ir_button_any_pressed():
+    if changeData == -1:
+        if makerbit.ir_button() == makerbit.ir_button_code(IrButton.NUMBER_1):
+            changeMode(0)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.NUMBER_2):
+            changeMode(1)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.NUMBER_3):
+            changeMode(2)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.NUMBER_4):
+            changeMode(3)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.NUMBER_5):
+            changeMode(4)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.STAR):
+            irChangeData(0)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.NUMBER_0):
+            irChangeData(1)
+        elif makerbit.ir_button() == makerbit.ir_button_code(IrButton.HASH):
+            irChangeData(2)
+makerbit.on_ir_button(IrButton.ANY, IrButtonAction.PRESSED, on_ir_button_any_pressed)
+
+def irChangeData(data):
+    global changeData
+    changeData = data
+    if changeData == 1:
+        for i in range(30):
+            if makerbit.was_ir_data_received():
+                if makerbit.ir_button() > 0:
+                    fanSpeed(makerbit.ir_button())
+                break
+            basic.pause(100)
+    changeData = -1
+
 def changeMode(mode):
     fanData[0] = mode
     pins.digital_write_pin(DigitalPin.P8, 0)
@@ -63,4 +95,5 @@ fanData = [0, 5, 0, 1, 10, 15]
 makerbit.connect_ir_receiver(DigitalPin.P0, IrProtocol.KEYESTUDIO)
 ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.query_data(DHTtype.DHT11, DigitalPin.P1, True, False, False)
+changeData = -1
 radio.set_group(1)
