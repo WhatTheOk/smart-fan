@@ -12,20 +12,18 @@ radio.onReceivedString(function on_received_string(data: string) {
     changeMode(parseInt(data[0]))
 })
 makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_any_pressed() {
-    if (changeData == -1) {
-        if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_1)) {
+    if (changeData == 0) {
+        if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Ok)) {
             changeMode(0)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_2)) {
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Up)) {
             changeMode(1)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_3)) {
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Down)) {
             changeMode(2)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_4)) {
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Left)) {
             changeMode(3)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_5)) {
+        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Right)) {
             changeMode(4)
         } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Star)) {
-            irChangeData(0)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Number_0)) {
             irChangeData(1)
         } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Hash)) {
             irChangeData(2)
@@ -39,19 +37,11 @@ function irChangeData(data: number) {
     changeData = data
     if (changeData == 1) {
         for (let i = 0; i < 30; i++) {
-            if (makerbit.wasIrDataReceived()) {
-                if (makerbit.irButton() > 0) {
-                    fanSpeed(makerbit.irButton())
-                }
-                
-                break
-            }
             
-            basic.pause(100)
         }
     }
     
-    changeData = -1
+    changeData = 0
 }
 
 function changeMode(mode: number) {
