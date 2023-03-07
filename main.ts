@@ -11,7 +11,7 @@ radio.onReceivedString(function on_received_string(data: string) {
     }
     changeMode(parseInt(data[0]))
 })
-function decodeIR(button: any): number {
+function decodeIR(button: number): number {
     if (makerbit.irButton() == 82) {
         return 0
     } else if (makerbit.irButton() == 22) {
@@ -38,6 +38,31 @@ function decodeIR(button: any): number {
     
 }
 
+makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_any_pressed() {
+    if (changeAt == 0) {
+        if (makerbit.irButton() == 64) {
+            changeMode(0)
+        } else if (makerbit.irButton() == 70) {
+            changeMode(1)
+        } else if (makerbit.irButton() == 21) {
+            changeMode(2)
+        } else if (makerbit.irButton() == 68) {
+            changeMode(3)
+        } else if (makerbit.irButton() == 67) {
+            changeMode(4)
+        } else if (makerbit.irButton() == 66) {
+            
+        } else if (makerbit.irButton() == 74) {
+            
+        } else if (makerbit.irButton() == 82) {
+            
+        } else {
+            fanSpeed(decodeIR(makerbit.irButton()))
+        }
+        
+    }
+    
+})
 function IRChangeData(data: number) {
     
     changeAt = data

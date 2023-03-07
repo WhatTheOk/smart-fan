@@ -56,8 +56,16 @@ def on_ir_button_any_pressed():
         elif makerbit.ir_button() == 82:
             pass
         else:
-            fanSpeed(decodeIR(makerbit.ir_button())
+            fanSpeed(decodeIR(makerbit.ir_button()))
 makerbit.on_ir_button(IrButton.ANY, IrButtonAction.PRESSED, on_ir_button_any_pressed)
+
+def IRChangeData(data):
+    global changeAt
+    changeAt = data
+    if changeAt == 1:
+        for i in range(30):
+            pass
+    changeAt = 0
 
 def changeMode(mode):
     fanData[0] = mode
