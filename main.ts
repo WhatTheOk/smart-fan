@@ -5,11 +5,10 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     changeMode((fanData[0] + 1) % 5)
 })
 radio.onReceivedString(function on_received_string(data: string) {
-    fanData[1] = parseInt(data[1])
-    for (let i = 2; i < 6; i++) {
-        fanData[i] = parseInt(data.slice(i * 2 - 2, i * 2))
-    }
     changeMode(parseInt(data[0]))
+    for (let i = 1; i < 6; i++) {
+        fanData[i] = parseInt(data.slice(i * 2, i * 2 + 2))
+    }
 })
 function decodeIR(button: number): number {
     if (makerbit.irButton() == 82) {
@@ -51,9 +50,9 @@ makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_
         } else if (makerbit.irButton() == 67) {
             changeMode(4)
         } else if (makerbit.irButton() == 66) {
-            
+            IRChangeData(1)
         } else if (makerbit.irButton() == 74) {
-            
+            IRChangeData(2)
         } else if (makerbit.irButton() == 82) {
             
         } else {
@@ -66,10 +65,23 @@ makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_
 function IRChangeData(data: number) {
     
     changeAt = data
-    if (changeAt == 1) {
-        for (let i = 0; i < 30; i++) {
-            
+    makerbit.wasIrDataReceived()
+    let temp = 0
+    for (let i = 0; i < 30; i++) {
+        if (makerbit.wasIrDataReceived()) {
+            temp = temp * 10 + decodeIR(makerbit.irButton())
         }
+        
+        basic.pause(100)
+    }
+    if (changeAt == 1) {
+        fanData[2] = Math.trunc(temp / 100)
+        fanData[3] = temp % 100
+    }
+    
+    if (changeAt == 2) {
+        fanData[4] = Math.trunc(temp / 100)
+        fanData[5] = temp % 100
     }
     
     changeAt = 0

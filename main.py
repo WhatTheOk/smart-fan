@@ -7,10 +7,9 @@ def on_button_pressed_b():
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_received_string(data):
-    fanData[1] = int(data[1])
-    for i in range(2,6):
-        fanData[i] = int(data[i * 2 - 2:i * 2])
     changeMode(int(data[0]))
+    for i in range(1, 6):
+        fanData[i] = int(data[(i * 2):(i * 2 + 2)])
 radio.on_received_string(on_received_string)
 
 def decodeIR(button):
@@ -50,9 +49,9 @@ def on_ir_button_any_pressed():
         elif makerbit.ir_button() == 67:
             changeMode(4)
         elif makerbit.ir_button() == 66:
-            pass
+            IRChangeData(1)
         elif makerbit.ir_button() == 74:
-            pass
+            IRChangeData(2)
         elif makerbit.ir_button() == 82:
             pass
         else:
@@ -62,9 +61,18 @@ makerbit.on_ir_button(IrButton.ANY, IrButtonAction.PRESSED, on_ir_button_any_pre
 def IRChangeData(data):
     global changeAt
     changeAt = data
+    makerbit.was_ir_data_received()
+    temp = 0
+    for i in range(30):
+        if makerbit.was_ir_data_received():
+            temp = temp * 10 + decodeIR(makerbit.ir_button())
+        basic.pause(100)
     if changeAt == 1:
-        for i in range(30):
-            pass
+        fanData[2] = int(temp / 100)
+        fanData[3] = temp % 100
+    if changeAt == 2:
+        fanData[4] = int(temp / 100)
+        fanData[5] = temp % 100
     changeAt = 0
 
 def changeMode(mode):
