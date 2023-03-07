@@ -67,21 +67,30 @@ function IRChangeData(data: number) {
     changeAt = data
     makerbit.wasIrDataReceived()
     let temp = 0
+    let cancel = false
     for (let i = 0; i < 30; i++) {
         if (makerbit.wasIrDataReceived()) {
+            if (decodeIR(makerbit.irButton()) == -1) {
+                cancel = true
+                break
+            }
+            
             temp = temp * 10 + decodeIR(makerbit.irButton())
         }
         
         basic.pause(100)
     }
-    if (changeAt == 1) {
-        fanData[2] = Math.trunc(temp / 100)
-        fanData[3] = temp % 100
-    }
-    
-    if (changeAt == 2) {
-        fanData[4] = Math.trunc(temp / 100)
-        fanData[5] = temp % 100
+    if (cancel == false) {
+        if (changeAt == 1) {
+            fanData[2] = Math.trunc(temp / 100)
+            fanData[3] = temp % 100
+        }
+        
+        if (changeAt == 2) {
+            fanData[4] = Math.trunc(temp / 100)
+            fanData[5] = temp % 100
+        }
+        
     }
     
     changeAt = 0

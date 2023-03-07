@@ -63,16 +63,21 @@ def IRChangeData(data):
     changeAt = data
     makerbit.was_ir_data_received()
     temp = 0
+    cancel = False
     for i in range(30):
         if makerbit.was_ir_data_received():
+            if decodeIR(makerbit.ir_button()) == -1:
+                cancel = True
+                break
             temp = temp * 10 + decodeIR(makerbit.ir_button())
         basic.pause(100)
-    if changeAt == 1:
-        fanData[2] = int(temp / 100)
-        fanData[3] = temp % 100
-    if changeAt == 2:
-        fanData[4] = int(temp / 100)
-        fanData[5] = temp % 100
+    if cancel == False:
+        if changeAt == 1:
+            fanData[2] = int(temp / 100)
+            fanData[3] = temp % 100
+        if changeAt == 2:
+            fanData[4] = int(temp / 100)
+            fanData[5] = temp % 100
     changeAt = 0
 
 def changeMode(mode):
