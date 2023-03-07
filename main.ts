@@ -11,37 +11,43 @@ radio.onReceivedString(function on_received_string(data: string) {
     }
     changeMode(parseInt(data[0]))
 })
-makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_any_pressed() {
-    if (changeData == 0) {
-        if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Ok)) {
-            changeMode(0)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Up)) {
-            changeMode(1)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Down)) {
-            changeMode(2)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Left)) {
-            changeMode(3)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Right)) {
-            changeMode(4)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Star)) {
-            irChangeData(1)
-        } else if (makerbit.irButton() == makerbit.irButtonCode(IrButton.Hash)) {
-            irChangeData(2)
-        }
-        
+function decodeIR(button: any): number {
+    if (makerbit.irButton() == 82) {
+        return 0
+    } else if (makerbit.irButton() == 22) {
+        return 1
+    } else if (makerbit.irButton() == 25) {
+        return 2
+    } else if (makerbit.irButton() == 13) {
+        return 3
+    } else if (makerbit.irButton() == 12) {
+        return 4
+    } else if (makerbit.irButton() == 24) {
+        return 5
+    } else if (makerbit.irButton() == 94) {
+        return 6
+    } else if (makerbit.irButton() == 8) {
+        return 7
+    } else if (makerbit.irButton() == 28) {
+        return 8
+    } else if (makerbit.irButton() == 90) {
+        return 9
+    } else {
+        return -1
     }
     
-})
-function irChangeData(data: number) {
+}
+
+function IRChangeData(data: number) {
     
-    changeData = data
-    if (changeData == 1) {
+    changeAt = data
+    if (changeAt == 1) {
         for (let i = 0; i < 30; i++) {
             
         }
     }
     
-    changeData = 0
+    changeAt = 0
 }
 
 function changeMode(mode: number) {
@@ -116,5 +122,5 @@ let fanData = [0, 5, 0, 1, 10, 15]
 makerbit.connectIrReceiver(DigitalPin.P0, IrProtocol.Keyestudio)
 let ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.queryData(DHTtype.DHT11, DigitalPin.P1, true, false, false)
-let changeData = -1
+let changeAt = 0
 radio.setGroup(1)
