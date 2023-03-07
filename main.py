@@ -13,23 +13,23 @@ def on_received_string(data):
 radio.on_received_string(on_received_string)
 
 def decodeIR(button):
-    if makerbit.ir_button() == 82:
+    if makerbit.ir_button() == 74:
         return 0
-    elif makerbit.ir_button() == 22:
+    elif makerbit.ir_button() == 104:
         return 1
-    elif makerbit.ir_button() == 25:
+    elif makerbit.ir_button() == 152:
         return 2
-    elif makerbit.ir_button() == 13:
+    elif makerbit.ir_button() == 176:
         return 3
-    elif makerbit.ir_button() == 12:
+    elif makerbit.ir_button() == 48:
         return 4
     elif makerbit.ir_button() == 24:
         return 5
-    elif makerbit.ir_button() == 94:
+    elif makerbit.ir_button() == 122:
         return 6
-    elif makerbit.ir_button() == 8:
+    elif makerbit.ir_button() == 16:
         return 7
-    elif makerbit.ir_button() == 28:
+    elif makerbit.ir_button() == 56:
         return 8
     elif makerbit.ir_button() == 90:
         return 9
@@ -38,21 +38,21 @@ def decodeIR(button):
 
 def on_ir_button_any_pressed():
     if changeAt == 0:
-        if makerbit.ir_button() == 64:
+        if makerbit.ir_button() == 2:
             changeMode(0)
-        elif makerbit.ir_button() == 70:
+        elif makerbit.ir_button() == 98:
             changeMode(1)
-        elif makerbit.ir_button() == 21:
+        elif makerbit.ir_button() == 168:
             changeMode(2)
-        elif makerbit.ir_button() == 68:
+        elif makerbit.ir_button() == 34:
             changeMode(3)
-        elif makerbit.ir_button() == 67:
+        elif makerbit.ir_button() == 194:
             changeMode(4)
         elif makerbit.ir_button() == 66:
             IRChangeData(1)
-        elif makerbit.ir_button() == 74:
-            IRChangeData(2)
         elif makerbit.ir_button() == 82:
+            IRChangeData(2)
+        elif makerbit.ir_button() == 74:
             pass
         else:
             fanSpeed(decodeIR(makerbit.ir_button()))

@@ -11,23 +11,23 @@ radio.onReceivedString(function on_received_string(data: string) {
     }
 })
 function decodeIR(button: number): number {
-    if (makerbit.irButton() == 82) {
+    if (makerbit.irButton() == 74) {
         return 0
-    } else if (makerbit.irButton() == 22) {
+    } else if (makerbit.irButton() == 104) {
         return 1
-    } else if (makerbit.irButton() == 25) {
+    } else if (makerbit.irButton() == 152) {
         return 2
-    } else if (makerbit.irButton() == 13) {
+    } else if (makerbit.irButton() == 176) {
         return 3
-    } else if (makerbit.irButton() == 12) {
+    } else if (makerbit.irButton() == 48) {
         return 4
     } else if (makerbit.irButton() == 24) {
         return 5
-    } else if (makerbit.irButton() == 94) {
+    } else if (makerbit.irButton() == 122) {
         return 6
-    } else if (makerbit.irButton() == 8) {
+    } else if (makerbit.irButton() == 16) {
         return 7
-    } else if (makerbit.irButton() == 28) {
+    } else if (makerbit.irButton() == 56) {
         return 8
     } else if (makerbit.irButton() == 90) {
         return 9
@@ -39,21 +39,21 @@ function decodeIR(button: number): number {
 
 makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_any_pressed() {
     if (changeAt == 0) {
-        if (makerbit.irButton() == 64) {
+        if (makerbit.irButton() == 2) {
             changeMode(0)
-        } else if (makerbit.irButton() == 70) {
+        } else if (makerbit.irButton() == 98) {
             changeMode(1)
-        } else if (makerbit.irButton() == 21) {
+        } else if (makerbit.irButton() == 168) {
             changeMode(2)
-        } else if (makerbit.irButton() == 68) {
+        } else if (makerbit.irButton() == 34) {
             changeMode(3)
-        } else if (makerbit.irButton() == 67) {
+        } else if (makerbit.irButton() == 194) {
             changeMode(4)
         } else if (makerbit.irButton() == 66) {
             IRChangeData(1)
-        } else if (makerbit.irButton() == 74) {
-            IRChangeData(2)
         } else if (makerbit.irButton() == 82) {
+            IRChangeData(2)
+        } else if (makerbit.irButton() == 74) {
             
         } else {
             fanSpeed(decodeIR(makerbit.irButton()))
