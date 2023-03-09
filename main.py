@@ -7,7 +7,7 @@ def on_button_pressed_b():
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_received_string(data):
-    changeMode(int(data[0]))
+    changeMode(int(data[1]))
     for i in range(1, 6):
         fanData[i] = int(data[(i * 2):(i * 2 + 2)])
 radio.on_received_string(on_received_string)
