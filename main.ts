@@ -1,3 +1,4 @@
+// https://osoyoo.com/2018/09/18/micro-bit-lesson-using-the-dht11-sensor/
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     fanData[1] = Math.trunc(fanData[1] / 3) * 3 % 9 + 3
 })
