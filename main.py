@@ -58,28 +58,6 @@ def on_ir_button_any_pressed():
             fanSpeed(decodeIR(makerbit.ir_button()))
 makerbit.on_ir_button(IrButton.ANY, IrButtonAction.PRESSED, on_ir_button_any_pressed)
 
-def IRChangeData(data):
-    global changeAt
-    changeAt = data
-    makerbit.was_ir_data_received()
-    temp = 0
-    cancel = False
-    for i in range(30):
-        if makerbit.was_ir_data_received():
-            if decodeIR(makerbit.ir_button()) == -1:
-                cancel = True
-                break
-            temp = temp * 10 + decodeIR(makerbit.ir_button())
-        basic.pause(100)
-    if cancel == False:
-        if changeAt == 1:
-            fanData[2] = int(temp / 100)
-            fanData[3] = temp % 100
-        if changeAt == 2:
-            fanData[4] = int(temp / 100)
-            fanData[5] = temp % 100
-    changeAt = 0
-
 def changeMode(mode):
     fanData[0] = mode
     pins.digital_write_pin(DigitalPin.P8, 0)
@@ -126,7 +104,7 @@ def fanSpeed(speed):
         pins.analog_write_pin(AnalogPin.P4, 0)
 
 led.enable(False)
-fanData = [0, 5, 0, 2, 0, 15]
+fanData = [0, 5, 0, 1, 15, 25]
 makerbit.connect_ir_receiver(DigitalPin.P0, IrProtocol.KEYESTUDIO)
 ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.query_data(DHTtype.DHT11, DigitalPin.P1, True, False, False)

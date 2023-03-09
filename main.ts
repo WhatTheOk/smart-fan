@@ -62,40 +62,6 @@ makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_
     }
     
 })
-function IRChangeData(data: number) {
-    
-    changeAt = data
-    makerbit.wasIrDataReceived()
-    let temp = 0
-    let cancel = false
-    for (let i = 0; i < 30; i++) {
-        if (makerbit.wasIrDataReceived()) {
-            if (decodeIR(makerbit.irButton()) == -1) {
-                cancel = true
-                break
-            }
-            
-            temp = temp * 10 + decodeIR(makerbit.irButton())
-        }
-        
-        basic.pause(100)
-    }
-    if (cancel == false) {
-        if (changeAt == 1) {
-            fanData[2] = Math.trunc(temp / 100)
-            fanData[3] = temp % 100
-        }
-        
-        if (changeAt == 2) {
-            fanData[4] = Math.trunc(temp / 100)
-            fanData[5] = temp % 100
-        }
-        
-    }
-    
-    changeAt = 0
-}
-
 function changeMode(mode: number) {
     fanData[0] = mode
     pins.digitalWritePin(DigitalPin.P8, 0)
@@ -164,7 +130,7 @@ function fanSpeed(speed: number) {
 }
 
 led.enable(false)
-let fanData = [0, 5, 0, 2, 0, 15]
+let fanData = [0, 5, 0, 1, 15, 25]
 makerbit.connectIrReceiver(DigitalPin.P0, IrProtocol.Keyestudio)
 let ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.queryData(DHTtype.DHT11, DigitalPin.P1, true, false, false)
