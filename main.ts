@@ -50,9 +50,9 @@ makerbit.onIrButton(IrButton.Any, IrButtonAction.Pressed, function on_ir_button_
         } else if (makerbit.irButton() == 194) {
             changeMode(4)
         } else if (makerbit.irButton() == 66) {
-            IRChangeData(1)
+            
         } else if (makerbit.irButton() == 82) {
-            IRChangeData(2)
+            
         } else if (makerbit.irButton() == 74) {
             
         } else {
@@ -132,7 +132,7 @@ basic.forever(function on_forever() {
             changeMode(0)
         }
         
-    } else if (fanData[0] == 3 || 4) {
+    } else if (fanData[0] == 3 || fanData[0] == 4) {
         temperature = dht11_dht22.readData(dataType.temperature)
         minTemp = fanData[4]
         maxTemp = fanData[5]
@@ -164,7 +164,7 @@ function fanSpeed(speed: number) {
 }
 
 led.enable(false)
-let fanData = [0, 5, 0, 1, 10, 15]
+let fanData = [0, 5, 0, 2, 0, 15]
 makerbit.connectIrReceiver(DigitalPin.P0, IrProtocol.Keyestudio)
 let ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.queryData(DHTtype.DHT11, DigitalPin.P1, true, false, false)
