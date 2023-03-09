@@ -99,7 +99,7 @@ basic.forever(function on_forever() {
         }
         
     } else if (fanData[0] == 3 || fanData[0] == 4) {
-        temperature = dht11_dht22.readData(dataType.temperature)
+        temperature = Math.trunc(dht11_dht22.readData(dataType.temperature))
         minTemp = fanData[4]
         maxTemp = fanData[5]
         if (temperature <= minTemp) {
@@ -130,7 +130,7 @@ function fanSpeed(speed: number) {
 }
 
 led.enable(false)
-let fanData = [0, 5, 0, 1, 15, 25]
+let fanData = [0, 5, 0, 1, 10, 35]
 makerbit.connectIrReceiver(DigitalPin.P0, IrProtocol.Keyestudio)
 let ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.queryData(DHTtype.DHT11, DigitalPin.P1, true, false, false)

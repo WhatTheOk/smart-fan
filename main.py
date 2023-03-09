@@ -83,7 +83,7 @@ def on_forever():
         if fanData[2] == ds.get_hour() and fanData [3] == ds.get_minute():
             changeMode(0)
     elif fanData[0] == 3 or fanData[0] == 4:
-        temperature = dht11_dht22.read_data(dataType.TEMPERATURE)
+        temperature = int(dht11_dht22.read_data(dataType.TEMPERATURE))
         minTemp = fanData[4]
         maxTemp = fanData[5]
         if temperature <= minTemp:
@@ -104,7 +104,7 @@ def fanSpeed(speed):
         pins.analog_write_pin(AnalogPin.P4, 0)
 
 led.enable(False)
-fanData = [0, 5, 0, 1, 15, 25]
+fanData = [0, 5, 0, 1, 10, 35]
 makerbit.connect_ir_receiver(DigitalPin.P0, IrProtocol.KEYESTUDIO)
 ds = DS1302.create(DigitalPin.P13, DigitalPin.P14, DigitalPin.P15)
 dht11_dht22.query_data(DHTtype.DHT11, DigitalPin.P1, True, False, False)
